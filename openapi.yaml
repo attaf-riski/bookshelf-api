@@ -1,0 +1,163 @@
+openapi: 3.0.3
+info:
+  title: Swagger BookShelf-API - OpenAPI 3.0
+  description: |-
+    Ini adalah dokumentasi API dari bookshelf-api dengan menggunakan bantuan swagger dan open api.
+    Tujuan dari dokumentasi ini adalah untuk memudahkan para pembaca dalam memahami bagaimana api yang kami buat ini bekerja dan fungsi apa saja yang bisa dipakai.
+    
+    Some useful links:
+    - [Bookshelf-api repository](https://github.com/attaf-riski/bookshelf-api)
+  contact:
+    email: atafriski27@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: http://13.229.108.197:9000
+tags:
+  - name: book
+    description: CRUD buku
+paths:
+  /books:
+    post:
+      tags:
+        - book
+      summary: Menambahkan buku baru
+      description: Add a new book to the bookshelf
+      operationId: addPet
+      requestBody:
+        description: Create a new book in the bookshelf
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Book'
+        required: true
+      responses:
+        '201':
+          description: Berhasil mendapatkan buku baru
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'          
+        '500':
+          description: Catatan Gagal Ditambahkan
+        '400':
+          description: Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount atau Gagal menambahkan buku. Mohon isi nama buku
+    get:
+      tags:
+        - book
+      summary: mendapatkan buku semua
+      responses:
+        '200': 
+          description: berhasil mendapatkan semua buku
+        '404':
+          description: gagal mendapatkan buku
+  /books/{id}:
+    delete:
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id dari buku yang mau dihapus
+      tags:
+        - book
+      summary: Hapus buku yang tersedia
+      responses:
+        '200':
+          description: hapus berhasil
+        '404':
+          description: id tidak ditemukan
+    put:
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id dari buku yang mau diupdate
+      tags:
+        - book
+      summary: Memperbarui buku berdasarkan id
+      description: Memperbarui buku
+      operationId: updatePet
+      requestBody:
+        description: Memperbarui buku 
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Book'
+        required: true
+      responses:
+        '200':
+          description: Buku berhasil diperbarui
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'          
+        '400':
+          description: Gagal memperbarui buku. Mohon isi nama buku
+        '404':
+          description: Gagal memperbarui buku. Id tidak ditemukan
+    get:
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id dari buku yang mau didapatkan
+      tags:
+        - book
+      summary: mendapatkan buku berdasarkan id
+      responses:
+        '200': 
+          description: berhasil mendapatkan semua buku
+        '404':
+          description: gagal mendapatkan buku
+components:
+  schemas:
+    Book:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1234567890123456
+        name:
+          type: string
+          example: "Alice in Borderland"
+        year:
+          type: integer
+          example: 2020
+        author:
+          type: string
+          example: "Haro Aso"
+        summary:
+          type: string
+          example: "The Death Game"
+        publisher:
+          type: string
+          example: "Kodansha"
+        pageCount:
+          type: integer
+          example: 200
+        readPage:
+          type: integer
+          example: 100
+        finished:
+          type: boolean
+          example: false
+        reading:
+          type: boolean
+          example: true
+        insertedAt:
+          type: integer
+          example: 27112021
+        updatedAt:
+          type: integer
+          example: 27122022
+      xml:
+        name: book
